@@ -1,0 +1,16 @@
+[project]
+name = "blent-ai-rag-dic-alm"
+version = "0.1.0"
+description = "RAG-powered conversational assistant for ALM teams to query Key Information Documents (DICs) using open-weight LLMs, LangChain, and local vector storage."
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+]
