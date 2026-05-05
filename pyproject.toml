@@ -4,7 +4,14 @@ version = "0.1.0"
 description = "RAG-powered conversational assistant for ALM teams to query Key Information Documents (DICs) using open-weight LLMs, LangChain, and local vector storage."
 readme = "README.md"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "pymupdf",
+    "langchain",
+    "langchain-community",
+    "langchain-text-splitters",
+    "sentence-transformers",
+    "chromadb",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
