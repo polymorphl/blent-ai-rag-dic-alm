@@ -5,3 +5,10 @@ __pycache__/
 
 # MacOS
 .DS_Store
+
+# Seed (PDF source documents)
+seed/DIC/
+seed/dataset_eval.zip
+
+# Vector store
+data/chroma_db/
