@@ -1,5 +1,8 @@
-def main():
-    print("Hello from blent-ai-rag-dic-alm!")
+from src.ingestion.pipeline import run_ingestion
+
+
+def main() -> None:
+    run_ingestion()
 
 
 if __name__ == "__main__":
