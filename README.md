@@ -10,9 +10,20 @@ The ALM department needs to analyse a large volume of KIDs to guide investment d
 
 ### 1. PDF chunking and embedding
 
-- Intelligent parsing and chunking of PDF documents (`chunk_size`, `chunk_overlap`)
-- Embedding suited to the language and financial domain
-- Local vector storage (ChromaDB or FAISS)
+- PDF parsing with **pymupdf**
+- Chunking with `RecursiveCharacterTextSplitter` (`chunk_size=1000`, `chunk_overlap=200`)
+- Embedding with **intfloat/multilingual-e5-large** (French, local via `sentence-transformers`)
+- Local vector storage with **ChromaDB** (persisted to `data/chroma_db/`)
+
+To inspect chunk quality and calibrate `chunk_size` / `chunk_overlap` before indexing:
+
+```bash
+# Single PDF
+uv run python -m src.ingestion.explore_chunks seed/DIC/Allianz.pdf
+
+# Entire corpus
+uv run python -m src.ingestion.explore_chunks seed/DIC
+```
 
 ### 2. RAG pipeline
 
@@ -40,6 +51,17 @@ Each file is a `{"uuid": "..."}` dictionary — the UUID is the join key across 
 
 ```bash
 uv sync
+```
+
+Unzip the PDF corpus into `seed/DIC/`:
+
+```bash
+unzip DIC.zip -d seed/DIC
+```
+
+Then run the ingestion pipeline:
+
+```bash
 uv run python -m src.main
 ```
 
