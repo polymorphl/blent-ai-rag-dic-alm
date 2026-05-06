@@ -1,12 +1,37 @@
 from unittest.mock import MagicMock, patch
 from src import config
-from src.rag.engine import RagEngine
+from src.rag.engine import RagEngine, _format_chunk_meta
 
 _CHUNKS = [
     {"text": "Le SRI est 3.", "source": "Allianz.pdf", "score": 0.9, "metadata": {"page": 2}},
     {"text": "Frais de 1%.", "source": "BNP.pdf", "score": 0.8, "metadata": {"page": 5}},
     {"text": "Autre info.", "source": "Allianz.pdf", "score": 0.7, "metadata": {"page": 4}},
 ]
+
+
+def test_format_chunk_meta_returns_source_and_1based_page():
+    chunk = {"source": "Allianz.pdf", "metadata": {"page": 2}}
+    source, page = _format_chunk_meta(chunk)
+    assert source == "Allianz.pdf"
+    assert page == "3"
+
+
+def test_format_chunk_meta_missing_source_falls_back_to_inconnu():
+    chunk = {"metadata": {"page": 0}}
+    source, _ = _format_chunk_meta(chunk)
+    assert source == "inconnu"
+
+
+def test_format_chunk_meta_missing_page_falls_back_to_question_mark():
+    chunk = {"source": "doc.pdf", "metadata": {}}
+    _, page = _format_chunk_meta(chunk)
+    assert page == "?"
+
+
+def test_format_chunk_meta_non_int_page_falls_back_to_question_mark():
+    chunk = {"source": "doc.pdf", "metadata": {"page": "3"}}
+    _, page = _format_chunk_meta(chunk)
+    assert page == "?"
 
 
 @patch("src.rag.engine.vector_store.query", return_value=_CHUNKS)
