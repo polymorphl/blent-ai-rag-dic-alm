@@ -33,9 +33,9 @@ def _spinner(message: str):
 
 
 def main() -> None:
-    engine = RagEngine()
-    print(config.CLI_LOADING_TEXT)
+    print(config.LOADING_TEXT)
     embedder.warm_up()
+    engine = RagEngine()
     history: list[dict] = []
     print(config.CLI_WELCOME)
     while True:
@@ -49,7 +49,7 @@ def main() -> None:
             break
         if not question:
             continue
-        with _spinner(config.CLI_SPINNER_TEXT):
+        with _spinner(config.SPINNER_TEXT):
             result = engine.ask(question, history)
         history.append({"role": "user", "content": question})
         history.append({"role": "assistant", "content": result["answer"]})
