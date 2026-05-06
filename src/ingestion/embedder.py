@@ -11,6 +11,11 @@ def _get_model() -> SentenceTransformer:
     return _model
 
 
+def warm_up() -> None:
+    """Pre-load the embedding model to avoid lazy-loading during the first query."""
+    _get_model()
+
+
 def embed_documents(texts: list[str]) -> list[list[float]]:
     """Embed a list of document passages (adds required 'passage:' prefix for E5 models)."""
     model = _get_model()

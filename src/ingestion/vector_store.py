@@ -4,11 +4,15 @@ import chromadb
 from langchain_core.documents import Document
 from src import config
 
+_client: chromadb.PersistentClient | None = None
+
 
 def _get_collection() -> chromadb.Collection:
-    Path(config.CHROMA_DIR).mkdir(parents=True, exist_ok=True)
-    client = chromadb.PersistentClient(path=config.CHROMA_DIR)
-    return client.get_or_create_collection(config.CHROMA_COLLECTION)
+    global _client
+    if _client is None:
+        Path(config.CHROMA_DIR).mkdir(parents=True, exist_ok=True)
+        _client = chromadb.PersistentClient(path=config.CHROMA_DIR)
+    return _client.get_or_create_collection(config.CHROMA_COLLECTION)
 
 
 def add(chunks: list[Document], embeddings: list[list[float]]) -> None:
