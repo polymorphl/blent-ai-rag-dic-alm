@@ -29,15 +29,13 @@ CLI_USER_PREFIX: str = "Vous"
 CLI_ASSISTANT_PREFIX: str = "Assistant"
 CLI_SOURCES_PREFIX: str = "Sources"
 CLI_EXIT_COMMANDS: tuple[str, ...] = ("quit", "exit", "quitter")
-CLI_SPINNER_TEXT: str = "Recherche en cours..."
-CLI_LOADING_TEXT: str = "Chargement du modèle d'embedding..."
+SPINNER_TEXT: str = "Recherche en cours..."
+LOADING_TEXT: str = "Chargement du modèle d'embedding..."
 
 # Streamlit UI
 APP_TITLE: str = "Assistant ALM — DIC"
 APP_INPUT_PLACEHOLDER: str = "Posez votre question sur les DIC..."
-APP_SPINNER_TEXT: str = "Recherche en cours..."
 APP_SOURCES_PREFIX: str = "Sources : "
-APP_LOADING_TEXT: str = "Chargement du modèle d'embedding..."
 
 # Error messages
 LLM_UNAVAILABLE_MSG: str = "Le modèle est actuellement indisponible. Vérifiez qu'Ollama est démarré."

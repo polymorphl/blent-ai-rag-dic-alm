@@ -22,7 +22,7 @@ def _render_sources(sources: list[str]) -> None:
 def main() -> None:
     st.title(config.APP_TITLE)
 
-    with st.spinner(config.APP_LOADING_TEXT):
+    with st.spinner(config.LOADING_TEXT):
         _get_engine()
 
     if "history" not in st.session_state:
@@ -40,7 +40,7 @@ def main() -> None:
             st.write(question)
 
         with st.chat_message("assistant"):
-            with st.spinner(config.APP_SPINNER_TEXT):
+            with st.spinner(config.SPINNER_TEXT):
                 result = _get_engine().ask(question, st.session_state.history)
             st.write(result["answer"])
             if result["sources"]:
