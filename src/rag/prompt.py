@@ -1,6 +1,13 @@
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
 from src import config
 
+def _format_chunk_meta(chunk: dict) -> tuple[str, str]:
+    source = chunk.get("source") or "inconnu"
+    raw = chunk.get("metadata", {}).get("page")
+    page = str(raw + 1) if isinstance(raw, int) else "?"
+    return source, page
+
+
 _SYSTEM = (
     "Tu es un assistant spécialisé pour les équipes ALM d'une compagnie d'assurance vie.\n"
     "Réponds uniquement en te basant sur les extraits de DIC fournis.\n"
@@ -13,9 +20,7 @@ def build(question: str, history: list[dict], chunks: list[dict]) -> list[BaseMe
     if chunks:
         doc_parts = []
         for chunk in chunks:
-            source = chunk.get("source") or "inconnu"
-            raw = chunk.get("metadata", {}).get("page")
-            page = str(raw + 1) if isinstance(raw, int) else "?"
+            source, page = _format_chunk_meta(chunk)
             doc_parts.append(f"[Source: {source}, page {page}]\n{chunk.get('text', '')}")
         system_content += "\n\nDocuments pertinents :\n\n" + "\n\n".join(doc_parts)
 

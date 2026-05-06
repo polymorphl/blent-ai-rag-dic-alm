@@ -2,6 +2,7 @@ from langchain_ollama import ChatOllama
 from src import config
 from src.ingestion import embedder, vector_store
 from src.rag import prompt
+from src.rag.prompt import _format_chunk_meta
 
 
 class RagEngine:
@@ -24,9 +25,7 @@ class RagEngine:
 def _deduplicate_sources(chunks: list[dict]) -> list[str]:
     pages: dict[str, list[str]] = {}
     for chunk in chunks:
-        source = chunk.get("source") or "inconnu"
-        raw = chunk.get("metadata", {}).get("page")
-        page = str(raw + 1) if isinstance(raw, int) else "?"
+        source, page = _format_chunk_meta(chunk)
         if source not in pages:
             pages[source] = []
         if page not in pages[source]:
