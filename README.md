@@ -27,9 +27,11 @@ uv run python -m src.ingestion.explore_chunks seed/DIC
 
 ### 2. RAG pipeline
 
-- Open-weight model (Mistral / Llama) running locally
-- Relevant chunk retrieval and sourced answer generation
-- Conversational memory to preserve exchange history
+- Open-weight model **Mistral** (configurable via `LLM_MODEL` in `src/config.py`) served locally via **Ollama**
+- Retrieval of the top `RAG_K` chunks from ChromaDB, injected into the prompt with source filename and page number
+- Conversational memory: in-session exchange history passed to the model at each turn (capped at `HISTORY_MAX_TURNS`)
+- Two interfaces: CLI REPL (`src/cli.py`) and web chat UI (`src/app.py` — Streamlit)
+- Embedding model is pre-loaded at startup in both interfaces, before the first query
 
 ### 3. Evaluation
 
@@ -47,7 +49,14 @@ Each file is a `{"uuid": "..."}` dictionary — the UUID is the join key across 
 
 **Minimum required threshold: F1 BertScore ≥ 60%**
 
+## Prerequisites
+
+- [uv](https://docs.astral.sh/uv/) — Python package manager
+- [Docker](https://www.docker.com/) — used to run the Ollama LLM server
+
 ## Getting started
+
+### 1. Ingest the PDF corpus
 
 ```bash
 uv sync
@@ -64,6 +73,44 @@ Then run the ingestion pipeline:
 ```bash
 uv run python -m src.main
 ```
+
+### 2. Start Ollama (via Docker)
+
+```bash
+docker run -d --name ollama -p 11434:11434 ollama/ollama
+docker exec ollama ollama pull mistral
+```
+
+To use a different model, pull it and update `LLM_MODEL` in `src/config.py`:
+
+```bash
+docker exec ollama ollama pull llama3
+```
+
+To stop and restart the container:
+
+```bash
+docker stop ollama
+docker start ollama
+```
+
+### 3. Run the RAG assistant
+
+**CLI (interactive REPL):**
+
+```bash
+uv run python -m src.cli
+```
+
+**Web interface (Streamlit):**
+
+```bash
+PYTHONPATH=. uv run streamlit run src/app.py --server.fileWatcherType none
+```
+
+Open `http://localhost:8501` in your browser.
+
+> `src/static` is a symlink to `seed/DIC/` — used by Streamlit's static file serving to expose the PDF files as clickable links in the chat UI.
 
 ## Tests
 
