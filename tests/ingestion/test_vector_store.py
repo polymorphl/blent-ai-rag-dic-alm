@@ -8,6 +8,7 @@ from src.ingestion import vector_store as vs
 def isolated_chroma(tmp_path, monkeypatch):
     monkeypatch.setattr(config, "CHROMA_DIR", str(tmp_path / "chroma"))
     monkeypatch.setattr(config, "CHROMA_COLLECTION", "test_collection")
+    monkeypatch.setattr(vs, "_client", None)
 
 
 def test_add_and_query_returns_result():
