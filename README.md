@@ -65,7 +65,7 @@ uv sync
 Unzip the PDF corpus into `seed/DIC/`:
 
 ```bash
-unzip DIC.zip -d seed/DIC
+unzip seed/DIC.zip -d seed/
 ```
 
 Then run the ingestion pipeline:
