@@ -108,3 +108,17 @@ def test_ask_forwards_history_to_prompt(mock_cls, mock_embed, mock_query):
         RagEngine().ask("nouvelle question", history)
         _, call_history, _ = mock_build.call_args[0]
         assert call_history == history
+
+
+@patch("src.rag.engine.vector_store.query", return_value=_CHUNKS)
+@patch("src.rag.engine.embedder.embed_query", return_value=[0.1] * 1024)
+@patch("src.rag.engine.ChatOllama")
+def test_ask_returns_chunks(mock_cls, mock_embed, mock_query):
+    mock_llm = MagicMock()
+    mock_llm.invoke.return_value = MagicMock(content="réponse")
+    mock_cls.return_value = mock_llm
+
+    result = RagEngine().ask("question", [])
+
+    assert "chunks" in result
+    assert result["chunks"] == _CHUNKS

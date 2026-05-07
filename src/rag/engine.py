@@ -19,7 +19,7 @@ class RagEngine:
             answer = response.content
         except Exception:
             answer = config.LLM_UNAVAILABLE_MSG
-        return {"answer": answer, "sources": _deduplicate_sources(chunks)}
+        return {"answer": answer, "sources": _deduplicate_sources(chunks), "chunks": chunks}
 
 
 def _deduplicate_sources(chunks: list[dict]) -> list[str]:
