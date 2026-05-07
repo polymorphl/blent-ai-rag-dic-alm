@@ -5,10 +5,10 @@ from pathlib import Path
 
 from tqdm import tqdm
 
-import torch
 import bert_score
 
 from src import config
+from src.ingestion.embedder import get_device
 from src.rag.engine import RagEngine
 
 
@@ -73,7 +73,7 @@ def compute_metrics(dataset: dict, cache: dict) -> dict:
             generated, expected,
             model_type=config.EVAL_BERTSCORE_MODEL,
             verbose=False,
-            device="cuda" if torch.cuda.is_available() else "cpu",
+            device=get_device(),
         )
 
         for i, uid in enumerate(valid_uuids):
