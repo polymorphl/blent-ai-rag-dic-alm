@@ -74,6 +74,12 @@ Then run the ingestion pipeline:
 uv run python -m src.main
 ```
 
+### 1b. Unzip the evaluation dataset
+
+```bash
+unzip seed/dataset_eval.zip -d seed/dataset_eval
+```
+
 ### 2. Start Ollama (via Docker)
 
 ```bash
@@ -111,6 +117,24 @@ PYTHONPATH=. uv run streamlit run src/app.py --server.fileWatcherType none
 Open `http://localhost:8501` in your browser.
 
 > `src/static` is a symlink to `seed/DIC/` — used by Streamlit's static file serving to expose the PDF files as clickable links in the chat UI.
+
+### 4. Run the evaluation
+
+Evaluate the RAG pipeline against the structured dataset (requires Ollama running):
+
+```bash
+uv run python -m src.eval
+```
+
+Results are saved to `data/eval_results.json`. The minimum required threshold is **BertScore F1 ≥ 60%**.
+
+To force a full re-run (ignore cache):
+
+```bash
+uv run python -m src.eval --no-cache
+```
+
+The first run generates answers via Ollama for all 619 queries and caches them in `data/eval_cache.json`. Subsequent runs reuse the cache and only recompute metrics.
 
 ## Tests
 
