@@ -3,6 +3,8 @@ import json
 import zipfile
 from pathlib import Path
 
+from tqdm import tqdm
+
 import bert_score
 
 from src import config
@@ -41,7 +43,7 @@ def run_queries(dataset: dict, cache_path: str | Path, force: bool = False) -> d
         return cache
 
     engine = RagEngine()
-    for uid in uncached:
+    for uid in tqdm(uncached, desc="Querying RAG", unit="query"):
         try:
             result = engine.ask(dataset[uid]["question"], [])
             if result["answer"] == config.LLM_UNAVAILABLE_MSG:
