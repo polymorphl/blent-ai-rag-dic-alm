@@ -5,7 +5,7 @@ from src import config
 _model: SentenceTransformer | None = None
 
 
-def _get_device() -> str:
+def get_device() -> str:
     if torch.cuda.is_available():
         return "cuda"
     return "cpu"
@@ -14,7 +14,7 @@ def _get_device() -> str:
 def _get_model() -> SentenceTransformer:
     global _model
     if _model is None:
-        _model = SentenceTransformer(config.EMBEDDING_MODEL, device=_get_device())
+        _model = SentenceTransformer(config.EMBEDDING_MODEL, device=get_device())
     return _model
 
 
