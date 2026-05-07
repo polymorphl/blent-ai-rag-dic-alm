@@ -52,7 +52,6 @@ Each file is a `{"uuid": "..."}` dictionary — the UUID is the join key across 
 ## Prerequisites
 
 - [uv](https://docs.astral.sh/uv/) — Python package manager
-- [Docker](https://www.docker.com/) — used to run the Ollama LLM server
 
 ## Getting started
 
@@ -80,21 +79,32 @@ uv run python -m src.main
 unzip seed/dataset_eval.zip -d seed/dataset_eval
 ```
 
-### 2. Start Ollama (via Docker)
+### 2. Start Ollama
+
+**Option A — Native install (recommended)**
+
+macOS:
+```bash
+brew install ollama
+ollama serve          # start the server (keep this terminal open)
+ollama pull mistral   # in another terminal
+```
+
+Linux:
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+ollama serve # start the server (keep this terminal open)
+ollama pull mistral
+```
+
+**Option B — Docker**
 
 ```bash
 docker run -d --name ollama -p 11434:11434 ollama/ollama
 docker exec ollama ollama pull mistral
 ```
 
-To use a different model, pull it and update `LLM_MODEL` in `src/config.py`:
-
-```bash
-docker exec ollama ollama pull llama3
-```
-
 To stop and restart the container:
-
 ```bash
 docker stop ollama
 docker start ollama
