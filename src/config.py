@@ -39,3 +39,11 @@ APP_SOURCES_PREFIX: str = "Sources : "
 
 # Error messages
 LLM_UNAVAILABLE_MSG: str = "Le modèle est actuellement indisponible. Vérifiez qu'Ollama est démarré."
+
+# Evaluation — BertScore F1 pipeline quality assessment
+EVAL_DATASET_ZIP: str = "seed/dataset_eval.zip"
+EVAL_CACHE_PATH: str = "data/eval_cache.json"
+EVAL_RESULTS_PATH: str = "data/eval_results.json"
+EVAL_ERRORS_PATH: str = "data/eval_errors.json"
+EVAL_THRESHOLD: float = 0.60
+EVAL_BERTSCORE_MODEL: str = "camembert-base"
