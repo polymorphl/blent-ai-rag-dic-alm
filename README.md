@@ -35,7 +35,10 @@ uv run python -m src.ingestion.explore_chunks seed/DIC
 
 ### 3. Evaluation
 
-**F1 BertScore** computed against a structured evaluation dataset:
+Two metrics computed against a structured evaluation dataset (619 queries):
+
+- **BertScore F1** — semantic similarity between generated and expected answers (`bert-base-multilingual-cased`)
+- **Recall@k** — fraction of relevant corpus chunks retrieved per query
 
 | File | Contents |
 |---|---|
@@ -48,6 +51,13 @@ uv run python -m src.ingestion.explore_chunks seed/DIC
 Each file is a `{"uuid": "..."}` dictionary — the UUID is the join key across files.
 
 **Minimum required threshold: F1 BertScore ≥ 60%**
+
+Pre-computed results are included in the repository:
+
+| File | Contents |
+|---|---|
+| `data/eval_cache.json` | Cached RAG answers for all 619 queries |
+| `data/eval_results.json` | Latest evaluation results (mean F1: **0.689** ✓, mean Recall@k: 0.044) |
 
 ## Prerequisites
 
