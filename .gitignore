@@ -6,9 +6,9 @@ __pycache__/
 # MacOS
 .DS_Store
 
-# Seed (PDF source documents)
+# Seed (PDFs, JSONs)
 seed/DIC/
-seed/dataset_eval.zip
+seed/dataset_eval/
 
 # Vector store
 data/chroma_db/
