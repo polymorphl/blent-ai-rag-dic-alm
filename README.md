@@ -138,13 +138,13 @@ uv run python -m src.eval
 
 Results are saved to `data/eval_results.json`. The minimum required threshold is **BertScore F1 ≥ 60%**.
 
+A pre-computed cache (`data/eval_cache.json`) is included in the repository — the first run will skip the 619 Ollama calls and go straight to metric computation.
+
 To force a full re-run (ignore cache):
 
 ```bash
 uv run python -m src.eval --no-cache
 ```
-
-The first run generates answers via Ollama for all 619 queries and caches them in `data/eval_cache.json`. Subsequent runs reuse the cache and only recompute metrics.
 
 ## Tests
 

@@ -72,7 +72,6 @@ def compute_metrics(dataset: dict, cache: dict) -> dict:
         _, _, F1 = bert_score.score(
             generated, expected,
             model_type=config.EVAL_BERTSCORE_MODEL,
-            lang="fr",
             verbose=False,
             device="cuda" if torch.cuda.is_available() else "cpu",
         )

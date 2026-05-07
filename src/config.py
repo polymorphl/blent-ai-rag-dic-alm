@@ -46,4 +46,4 @@ EVAL_CACHE_PATH: str = "data/eval_cache.json"
 EVAL_RESULTS_PATH: str = "data/eval_results.json"
 EVAL_ERRORS_PATH: str = "data/eval_errors.json"
 EVAL_THRESHOLD: float = 0.60
-EVAL_BERTSCORE_MODEL: str = "camembert-base"
+EVAL_BERTSCORE_MODEL: str = "bert-base-multilingual-cased"
