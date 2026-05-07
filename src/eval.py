@@ -5,6 +5,7 @@ from pathlib import Path
 
 from tqdm import tqdm
 
+import torch
 import bert_score
 
 from src import config
@@ -73,6 +74,7 @@ def compute_metrics(dataset: dict, cache: dict) -> dict:
             model_type=config.EVAL_BERTSCORE_MODEL,
             lang="fr",
             verbose=False,
+            device="cuda" if torch.cuda.is_available() else "cpu",
         )
 
         for i, uid in enumerate(valid_uuids):
