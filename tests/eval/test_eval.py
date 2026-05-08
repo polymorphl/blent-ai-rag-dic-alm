@@ -148,6 +148,23 @@ def test_recall_exact_substring_match():
     assert metrics["per_query"][0]["recall"] == 1.0
 
 
+def test_recall_token_overlap_match_without_substring():
+    # Reference chunk is larger than the retrieved chunk (different chunking boundaries).
+    # No substring match in either direction, but > 50% word overlap → should count as matched.
+    reference = "La durée de placement recommandée est supérieure à cinq ans pour ce fonds"
+    retrieved = "Durée recommandée : supérieure à cinq ans pour ce placement dans le fonds"
+    dataset = {"uuid-1": {"relevant_chunk_texts": [reference], "error": None, "expected_answer": "réponse"}}
+    cache = {"uuid-1": {"answer": "réponse", "chunks": [{"text": retrieved}], "error": None}}
+
+    with patch("src.eval.bert_score.score") as mock_bs:
+        import torch
+        mock_bs.return_value = (None, None, torch.tensor([0.7]))
+        from src.eval import compute_metrics
+        metrics = compute_metrics(dataset, cache)
+
+    assert metrics["per_query"][0]["recall"] == 1.0
+
+
 def test_recall_no_match():
     dataset = {"uuid-1": {"relevant_chunk_texts": ["texte introuvable"], "error": None, "expected_answer": "réponse"}}
     cache = {"uuid-1": {"answer": "réponse", "chunks": [{"text": "contenu sans rapport"}], "error": None}}

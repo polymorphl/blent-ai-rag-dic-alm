@@ -76,11 +76,18 @@ def compute_metrics(dataset: dict, cache: dict) -> dict:
             device=get_device(),
         )
 
+        def _token_overlap(a: str, b: str) -> float:
+            wa, wb = set(a.split()), set(b.split())
+            return len(wa & wb) / max(len(wa), 1)
+
         for i, uid in enumerate(valid_uuids):
             relevant_texts = dataset[uid]["relevant_chunk_texts"]
             retrieved_chunks = cache[uid]["chunks"]
             if relevant_texts:
-                matched = sum(1 for t in relevant_texts if any(t in c["text"] for c in retrieved_chunks))
+                matched = sum(
+                    1 for t in relevant_texts
+                    if any(_token_overlap(t, c["text"]) > 0.5 for c in retrieved_chunks)
+                )
                 recall = matched / len(relevant_texts)
             else:
                 recall = 0.0
