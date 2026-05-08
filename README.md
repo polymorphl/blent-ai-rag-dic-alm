@@ -57,7 +57,7 @@ Pre-computed results are included in the repository:
 | File | Contents |
 |---|---|
 | `data/eval_cache.json` | Cached RAG answers for all 619 queries |
-| `data/eval_results.json` | Latest evaluation results (mean F1: **0.689** ✓, mean Recall@k: 0.044) |
+| `data/eval_results.json` | Latest evaluation results (mean F1: **0.694** ✓, mean Recall@k: **0.695** ✓) |
 
 ## Prerequisites
 
